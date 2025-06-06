@@ -1,7 +1,7 @@
-import './pages/index.css';
-import { createCardElement, removeCard, likeCard } from './components/card.js';
-import { openPopup, closePopup } from './components/modal.js';
-import {initialCards } from './components/cards.js'
+import '../pages/index.css';
+import { createCardElement, removeCard, likeCard } from './card.js';
+import { openPopup, closePopup } from './modal.js';
+import { initialCards } from './cards.js'
 
 const placesList = document.querySelector('.places__list');
 
