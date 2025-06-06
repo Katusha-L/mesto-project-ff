@@ -1,7 +1,8 @@
 import './pages/index.css';
-import { initialCards } from './cards.js';
+import { createCardElement, removeCard, likeCard } from './components/card.js';
+import { openPopup, closePopup } from './components/modal.js';
+import {initialCards } from './components/cards.js'
 
-const cards = document.querySelector('#card-template');
 const placesList = document.querySelector('.places__list');
 
 const cardImagePopup = document.querySelector('.popup_type_image');
@@ -27,45 +28,10 @@ const formAddElement = addPopup.querySelector('.popup__form');
 const cardNameInput = addPopup.querySelector('.popup__input_type_card-name');
 const linkInput = addPopup.querySelector('.popup__input_type_url');
 
-let currentPopup = null;
-
-function createCardElement(cardData, buttonDelete, likeCard, handleOpen) {
-    const cardElement = cards.content.cloneNode(true).querySelector('.card');
-
-    const cardName = cardElement.querySelector('.card__title');
-    const cardImage = cardElement.querySelector('.card__image');
-   
-    cardImage.src = cardData.link;
-    cardName.textContent = cardData.name;
-    
-    const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener ('click',() => {
-     buttonDelete(cardElement);  
-        });
-    
-    const likeButton = cardElement.querySelector('.card__like-button');
-   likeButton.addEventListener('click', () => {
-    likeCard(likeButton); 
-  });
-
-  cardImage.addEventListener('click', () => {
-     handleOpen(cardData.link, cardData.name);
-  });
-  return cardElement;
-};
-
 initialCards.forEach(cardData => {
     const cardElement = createCardElement(cardData, removeCard, likeCard, openImagePopup);
     placesList.appendChild(cardElement);
   });
-
-function removeCard(cardElement) {
-    cardElement.remove();
-  };
-
-function likeCard(button) {
-  button.classList.toggle('card__like-button_is-active');
-};
 
 function openImagePopup(link,caption) {
   if (!cardImagePopup || !popupImage || !imageCaption) return;
@@ -92,33 +58,6 @@ cardImagePopup.addEventListener('click', function (evt) {
 popupCloseBtn.addEventListener('click', () => {
   closeImagePopup();
 });
-
-function openPopup(popupElement) {
-  popupElement.style.display = 'flex';
-  popupElement.classList.add('popup_is-opened');
-  currentPopup = popupElement;
-
-  document.addEventListener('keydown', handleEscClose);
-};
-
-function closePopup(popupElement) {
-  popupElement.classList.remove('popup_is-opened');
-  if (currentPopup === popupElement) {
-    currentPopup = null;
-  }
-  setTimeout(() => {
-    popupElement.style.display = 'none';
-  }, 300);
-  document.removeEventListener('keydown', handleEscClose);
-};
-
-
-function handleEscClose(evt) {
-  if (evt.key === 'Escape'&& currentPopup ) {
-    closePopup(currentPopup);
-  }
-};
-document.addEventListener('keydown', handleEscClose);
 
 editOpenBtn.addEventListener('click', function(){
  openPopup(editPopup);
