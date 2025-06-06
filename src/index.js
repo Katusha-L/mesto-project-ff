@@ -78,6 +78,9 @@ function openImagePopup(link,caption) {
 
 function closeImagePopup() {
   closePopup(cardImagePopup);
+  setTimeout(() => {
+    cardImagePopup.style.display = 'none';
+  }, 300);
 }
 
 cardImagePopup.addEventListener('click', function (evt) {
@@ -91,6 +94,7 @@ popupCloseBtn.addEventListener('click', () => {
 });
 
 function openPopup(popupElement) {
+  popupElement.style.display = 'flex';
   popupElement.classList.add('popup_is-opened');
   currentPopup = popupElement;
 
@@ -102,8 +106,12 @@ function closePopup(popupElement) {
   if (currentPopup === popupElement) {
     currentPopup = null;
   }
+  setTimeout(() => {
+    popupElement.style.display = 'none';
+  }, 300);
   document.removeEventListener('keydown', handleEscClose);
 };
+
 
 function handleEscClose(evt) {
   if (evt.key === 'Escape'&& currentPopup ) {
@@ -156,7 +164,7 @@ function handleAddFormSubmit(evt){
   evt.preventDefault();
   const cardName = cardNameInput.value;
   const cardLink = linkInput.value;
-  
+
   const newCard = createCardElement(
     { name: cardName, link: cardLink },
     removeCard,
@@ -167,7 +175,7 @@ function handleAddFormSubmit(evt){
   placesList.prepend(newCard);
 
   closePopup(addPopup);
-  formElement.reset();
+  formAddElement.reset();
 }
 
 formAddElement.addEventListener('submit', handleAddFormSubmit);
