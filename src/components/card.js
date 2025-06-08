@@ -1,4 +1,3 @@
-
 const cards = document.querySelector('#card-template');
 
 export function createCardElement(cardData, buttonDelete, likeCard, handleOpen) {
@@ -6,30 +5,33 @@ export function createCardElement(cardData, buttonDelete, likeCard, handleOpen) 
 
     const cardName = cardElement.querySelector('.card__title');
     const cardImage = cardElement.querySelector('.card__image');
-   
-    cardImage.src = cardData.link;
-    cardName.textContent = cardData.name;
     
-    const deleteButton = cardElement.querySelector('.card__delete-button');
-    deleteButton.addEventListener ('click',() => {
-     buttonDelete(cardElement);  
-        });
-    
-    const likeButton = cardElement.querySelector('.card__like-button');
-   likeButton.addEventListener('click', () => {
-    likeCard(likeButton); 
+  const deleteButton = cardElement.querySelector(".card__delete-button");
+  const likeButton = cardElement.querySelector(".card__like-button");
+
+  cardName.textContent = cardData.name;
+  cardImage.src = cardData.link;
+  cardImage.alt = cardData.name;
+
+  deleteButton.addEventListener("click", function () {
+    buttonDelete(cardElement);
   });
 
-  cardImage.addEventListener('click', () => {
-     handleOpen(cardData.link, cardData.name);
+  likeButton.addEventListener("click", function () {
+    likeCard(likeButton);
   });
+
+  cardImage.addEventListener("click", function () {
+    handleOpen(cardData.link, cardData.name);
+  });
+
   return cardElement;
 };
 
 export function removeCard(cardElement) {
-    cardElement.remove();
-  };
+  cardElement.remove();
+};
 
 export function likeCard(button) {
-  button.classList.toggle('card__like-button_is-active');
+  button.classList.toggle("card__like-button_is-active");
 };
