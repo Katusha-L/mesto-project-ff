@@ -1,9 +1,15 @@
 import '../pages/index.css';
 import { createCardElement, removeCard, likeCard } from './card.js';
-import { openPopup, closePopup, openImagePopup } from './modal.js';
+import { openPopup, closePopup,} from './modal.js';
 import { initialCards } from './cards.js'
 
+
 const placesList = document.querySelector('.places__list');
+
+const cardImagePopup = document.querySelector(".popup_type_image");
+const imageCaption = cardImagePopup.querySelector(".popup__caption");
+const popupImage = cardImagePopup.querySelector(".popup__image");
+const popupCloseBtn = cardImagePopup.querySelector(".popup__close");
 
 const editOpenBtn = document.getElementById('edit-button')
 const editPopup = document.querySelector('.popup_type_edit');
@@ -22,6 +28,30 @@ const addCloseBtn = addPopup.querySelector('.popup__close');
 const formAddElement = addPopup.querySelector('.popup__form');
 const cardNameInput = addPopup.querySelector('.popup__input_type_card-name');
 const linkInput = addPopup.querySelector('.popup__input_type_url');
+
+
+function openImagePopup(link, caption) {
+  if (!cardImagePopup || !popupImage || !imageCaption) return;
+  imageCaption.textContent = caption;
+  popupImage.alt = caption;
+  popupImage.src = link;
+
+  openPopup(cardImagePopup);
+}
+
+function closeImagePopup() {
+  closePopup(cardImagePopup);
+}
+
+cardImagePopup.addEventListener("click", function (evt) {
+  if (evt.target === cardImagePopup) {
+    closeImagePopup();
+  }
+});
+
+popupCloseBtn.addEventListener("click", function () {
+  closeImagePopup();
+});
 
 initialCards.forEach(cardData => {
     const cardElement = createCardElement(cardData, removeCard, likeCard, openImagePopup);
@@ -59,7 +89,7 @@ addPopup.addEventListener('click', function (evt) {
   }
 });
 
-function EditFormSubmit(evt) {
+function editFormSubmit(evt) {
     evt.preventDefault();
    const nameValue = nameInput.value;
    const descriptionValue = jobInput.value
@@ -69,9 +99,9 @@ function EditFormSubmit(evt) {
    closePopup(editPopup);
    formEditElement.reset();
 };
-formEditElement.addEventListener('submit', EditFormSubmit); 
+formEditElement.addEventListener('submit', editFormSubmit); 
 
-function AddFormSubmit(evt){
+function addFormSubmit(evt){
   evt.preventDefault();
   const cardName = cardNameInput.value;
   const cardLink = linkInput.value;
@@ -89,4 +119,4 @@ function AddFormSubmit(evt){
   formAddElement.reset();
 }
 
-formAddElement.addEventListener('submit', AddFormSubmit);
+formAddElement.addEventListener('submit', addFormSubmit);
